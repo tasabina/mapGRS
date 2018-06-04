@@ -58,68 +58,60 @@ ymaps.ready(init);
         // обратимся к дочерним коллекциям ObjectManager.
         objectManager.objects.options.set({iconLayout: 'default#image', iconImageHref: 'icon_1.png',iconImageOffset: [-12, -50],iconImageSize: [25, 50],hasHint: true});
         objectManager.clusters.options.set('preset', 'islands#invertedDarkBlueClusterIcons');
-        myMap.geoObjects.add(objectManager);	 */
+        myMap.geoObjects.add(objectManager);	 
 
         $.ajax({
             url: "data.json"
         }).done(function(data) {
             objectManager.add(data);
-        });		 */
+        });		 
 
-
-                ListBoxLayout = ymaps.templateLayoutFactory.createClass(
-                "<button id='my-listbox-header' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>" +
-                    "{{data.title}} <span class='caret'></span>" +
-                "</button>" +
-                // Этот элемент будет служить контейнером для элементов списка.
-                // В зависимости от того, свернут или развернут список, этот контейнер будет
-                // скрываться или показываться вместе с дочерними элементами.
-                "<ul id='my-listbox'" +
-                    " class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu'" +
-                    " style='display: {% if state.expanded %}block{% else %}none{% endif %};'></ul>", {
-
-                build: function() {
-                    // Вызываем метод build родительского класса перед выполнением
-                    // дополнительных действий.
-                    ListBoxLayout.superclass.build.call(this);
-
-                    this.childContainerElement = $('#my-listbox').get(0);
-                    // Генерируем специальное событие, оповещающее элемент управления
-                    // о смене контейнера дочерних элементов.
-                    this.events.fire('childcontainerchange', {
-                        newChildContainerElement: this.childContainerElement,
-                        oldChildContainerElement: null
-                    });
-                },
-
-                // Переопределяем интерфейсный метод, возвращающий ссылку на
-                // контейнер дочерних элементов.
-                getChildContainerElement: function () {
-                    return this.childContainerElement;
-                },
-
-                clear: function () {
-                    // Заставим элемент управления перед очисткой макета
-                    // откреплять дочерние элементы от родительского.
-                    // Это защитит нас от неожиданных ошибок,
-                    // связанных с уничтожением dom-элементов в ранних версиях ie.
-                    this.events.fire('childcontainerchange', {
-                        newChildContainerElement: null,
-                        oldChildContainerElement: this.childContainerElement
-                    });
-                    this.childContainerElement = null;
-                    // Вызываем метод clear родительского класса после выполнения
-                    // дополнительных действий.
-                    ListBoxLayout.superclass.clear.call(this);
-                }
-            }),
-
-            // Также создадим макет для отдельного элемента списка.
-            ListBoxItemLayout = ymaps.templateLayoutFactory.createClass(
-                "<li id='my-dropbox'><a>{{data.content}}</a></li>"
-            ),
-
-            // Создадим пункты выпадающего списка
+       	ListBoxLayout = ymaps.templateLayoutFactory.createClass(
+        "<button id='my-listbox-header' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>" +
+        "{{data.title}} <span class='caret'></span>" +
+        "</button>" +
+        // Этот элемент будет служить контейнером для элементов списка.
+        // В зависимости от того, свернут или развернут список, этот контейнер будет
+        // скрываться или показываться вместе с дочерними элементами.
+        "<ul id='my-listbox'" +
+        " class='dropdown-menu' role='menu' aria-labelledby='dropdownMenu'" +
+        " style='display: {% if state.expanded %}block{% else %}none{% endif %};'></ul>", {
+	build: function() {
+	// Вызываем метод build родительского класса перед выполнением
+	// дополнительных действий.
+	ListBoxLayout.superclass.build.call(this);
+	this.childContainerElement = $('#my-listbox').get(0);
+	// Генерируем специальное событие, оповещающее элемент управления
+	// о смене контейнера дочерних элементов.
+	this.events.fire('childcontainerchange', {
+	newChildContainerElement: this.childContainerElement,
+	oldChildContainerElement: null
+		});
+	},
+	// Переопределяем интерфейсный метод, возвращающий ссылку на
+	// контейнер дочерних элементов.
+	getChildContainerElement: function () {
+	return this.childContainerElement;
+	}, clear: function () {
+	// Заставим элемент управления перед очисткой макета
+	// откреплять дочерние элементы от родительского.
+	// Это защитит нас от неожиданных ошибок,
+	// связанных с уничтожением dom-элементов в ранних версиях ie.
+	this.events.fire('childcontainerchange', {
+	newChildContainerElement: null,
+	oldChildContainerElement: this.childContainerElement
+	});
+	this.childContainerElement = null;
+	// Вызываем метод clear родительского класса после выполнения
+	// дополнительных действий.
+	ListBoxLayout.superclass.clear.call(this);
+		}
+	}),
+	// Также создадим макет для отдельного элемента списка.
+	ListBoxItemLayout = ymaps.templateLayoutFactory.createClass(
+	"<li id='my-dropbox'><a>{{data.content}}</a></li>"
+	),
+	// Создадим пункты выпадающего списка
             listBoxItems = [
                 new ymaps.control.ListBoxItem({
                     data: {
