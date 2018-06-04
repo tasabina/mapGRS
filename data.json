@@ -1,0 +1,15 @@
+﻿{
+  "type": "FeatureCollection",
+  "features": [{
+    "type": "Feature",
+    "id": 1,
+    "geometry": {
+      "type": "Point",
+      "coordinates": [0.0,0.0]},
+      "properties": {
+        "hintContent": "***",
+        "balloonContentHeader":"<div> *** </div>",
+        "balloonContentBody":"***<sup>*</sup>*<span style= 'color: #cc0000'>***</span> "
+        }}
+    ]
+}
